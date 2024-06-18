@@ -7,7 +7,7 @@
 *.dll
 *.so
 *.dylib
-stump
+./stump
 build
 
 # Test binary, built with `go test -c`

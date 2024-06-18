@@ -2,8 +2,7 @@ pre-commit:
   parallel: false
   commands:
     go-lint:
-      glob: "*.go"
-      run: go fmt
+      run: go fmt ./...
 
     # go-test:
       # run: go test
