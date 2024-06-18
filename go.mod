@@ -1,4 +1,4 @@
-module disgobot
+module stump
 
 go 1.21.9
 
