@@ -1,10 +1,14 @@
 package main
 
 import (
-	"github.com/getlantern/systray"
+	"fmt"
 	stump "stump/internal/systray"
+
+	"github.com/getlantern/systray"
 )
 
 func main() {
 	systray.Run(stump.OnReady, stump.OnExit)
+
+	fmt.Println("hey sailor")
 }
