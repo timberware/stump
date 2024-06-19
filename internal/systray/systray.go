@@ -3,10 +3,12 @@ package systray
 import (
 	"fmt"
 	"github.com/getlantern/systray"
+	"stump/assets/icon"
 )
 
 func OnReady() {
-	systray.SetTitle("App")
+	systray.SetTitle("Stump")
+	systray.SetIcon(icon.Data())
 	mQuit := systray.AddMenuItem("Quit", "Quit the app")
 
 	go func() {
