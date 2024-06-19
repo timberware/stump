@@ -1,4 +1,8 @@
-# Stump
+<div style="text-align:center;">
+  <img src="assets/icon/icon_linux.png" alt="Stump Logo: a pixelated tree stump" width="64" height="64">
+</div>
+
+<h1 style="margin-top: 0; text-align: center;">Stump</h1>
 
 Stump is a system tray application written in Go that provides desktop notifications when specified Twitch streamers go live.
 
