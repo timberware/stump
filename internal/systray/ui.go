@@ -1,14 +1,15 @@
 package systray
 
 import (
-	"fmt"
 	"github.com/ncruces/zenity"
+	"stump/internal/logger"
 )
 
 func GetTwitchToken(text, title string) (string, error) {
 	result, err := zenity.Entry(text, zenity.Title(title))
 	if err != nil {
-		return "", fmt.Errorf("failed to open input dialog: %w", err)
+		logger.Error("Failed to open input dialog", "error", err)
+		return "", err
 	}
 
 	return result, nil
@@ -17,7 +18,7 @@ func GetTwitchToken(text, title string) (string, error) {
 func ConfirmQuit(text, title string) (bool, error) {
 	err := zenity.Question(text, zenity.Title(title))
 	if err != nil {
-		return false, fmt.Errorf("failed to open question dialog: %w", err)
+		return false, err
 	}
 
 	return true, nil

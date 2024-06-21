@@ -3,9 +3,11 @@ package systray
 import (
 	"github.com/getlantern/systray"
 	"stump/internal/icon"
+	"stump/internal/logger"
 )
 
 func OnReady() {
+	logger.Info("Application ready")
 	systray.SetTitle("Stump")
 	systray.SetIcon(icon.Data())
 
@@ -13,5 +15,5 @@ func OnReady() {
 }
 
 func OnExit() {
-	Close()
+	logger.Info("Application closed")
 }

@@ -1,8 +1,8 @@
 package systray
 
 import (
-	"fmt"
 	"github.com/getlantern/systray"
+	"stump/internal/logger"
 )
 
 var connectMenuItem *systray.MenuItem
@@ -24,32 +24,27 @@ func SetupMenu() {
 
 func handleConnect() {
 	<-connectMenuItem.ClickedCh
-	fmt.Println("Connecting to Twitch...")
+	logger.Info("Connecting to Twitch...")
 }
 
 func handleDisconnect() {
 	<-disconnectMenuItem.ClickedCh
-	fmt.Println("Disconnecting from Twitch...")
+	logger.Info("Disconnecting from Twitch...")
 }
 
 func handleToken() {
 	<-tokenMenuItem.ClickedCh
-	fmt.Println("Requesting token")
-	text, _ := GetTwitchToken("Please input your Twitch Token", "Get Token")
-	fmt.Println(text)
+	logger.Info("Requesting token")
+	GetTwitchToken("Please input your Twitch Token", "Get Token")
+	logger.Info("Token received")
 }
 
 func handleQuit() {
 	<-quitMenuItem.ClickedCh
-	fmt.Println("Requesting quit")
+	logger.Info("Requesting quit")
 	confirmQuit, _ := ConfirmQuit("Do you want to continue?", "Confirm Quit?")
 	if confirmQuit {
+		logger.Info("Quitting confirmed")
 		systray.Quit()
-	} else {
-		fmt.Println("Continuing")
 	}
-}
-
-func Close() {
-	fmt.Println("Application closed")
 }
