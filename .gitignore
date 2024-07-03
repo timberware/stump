@@ -8,6 +8,7 @@
 *.so
 *.dylib
 ./stump
+stump.sqlite
 build
 
 # Test binary, built with `go test -c`

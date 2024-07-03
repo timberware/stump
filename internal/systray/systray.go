@@ -24,7 +24,6 @@ func OnReady() {
 	quit = systray.AddMenuItem("Quit", "Quit the app")
 
 	go Handle()
-
 }
 
 func Handle() {
@@ -49,7 +48,6 @@ func Handle() {
 			logger.Info(message)
 		}
 	}
-
 }
 
 func OnExit() {

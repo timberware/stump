@@ -92,5 +92,12 @@ Stump includes a Makefile for convenient building:
 # Contributing
 If you'd like to contribute to Stump, fork the repository and create a pull request. We welcome contributions that improve functionality, add features, or enhance usability.
 
+### Developing using `sqlc`
+SQLC is a tool we use that generates type-safe Go code from SQL queries (see `/internal/db`).
+
+- Running sqlc: `docker pull sqlc/sqlc`
+  - Run sqlc using docker run: `docker run --rm -v $(pwd):/src -w /src sqlc/sqlc generate`
+  - Run sqlc using docker run in cmd on Windows: `docker run --rm -v "%cd%:/src" -w /src sqlc/sqlc generate`
+
 # License
 This project is licensed under the GNU License. See the LICENSE file for details.
