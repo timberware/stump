@@ -17,9 +17,6 @@ var login *systray.MenuItem
 var quit *systray.MenuItem
 
 func OnReady() {
-	systray.SetTitle("Stump")
-	systray.SetIcon(icon.Data())
-
 	login = systray.AddMenuItem("Login", "Twitch Login")
 	connect = systray.AddMenuItem("Connect", "Connect to Twitch")
 	disconnect = systray.AddMenuItem("Disconnect", "Disconnect from Twitch")
@@ -29,6 +26,11 @@ func OnReady() {
 }
 
 func Handle() {
+	logo := icon.Data(true)
+	logo_offline := icon.Data(false)
+	systray.SetTitle("Stump")
+	systray.SetIcon(logo_offline)
+
 	var u user.User
 	var dc string
 	m := make(chan string)
@@ -45,10 +47,12 @@ func Handle() {
 			u.GetAllFollowed()
 			logger.Info("Connecting")
 			ws.Connect(m, u)
+			systray.SetIcon(logo)
 
 		case <-disconnect.ClickedCh:
 			logger.Info("Disconnecting")
 			ws.Disconnect()
+			systray.SetIcon(logo_offline)
 
 		case <-quit.ClickedCh:
 			shouldQuit, _ := ConfirmQuit("Do you want to quit?", "Confirm Quit?")

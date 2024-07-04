@@ -2,6 +2,10 @@
 
 package icon
 
-func getIconLocation() string {
-	return "assets/icon/icon_linux.png"
+func getIconLocation(isOnline bool) string {
+	if isOnline {
+		return "assets/icon/stump.png"
+	}
+
+	return "assets/icon/stump_offline.png"
 }
