@@ -5,7 +5,10 @@ go 1.21.9
 require (
 	github.com/getlantern/systray v1.2.2
 	github.com/gorilla/websocket v1.5.3
+	github.com/joho/godotenv v1.5.1
 	github.com/ncruces/zenity v0.10.12
+	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
+	modernc.org/sqlite v1.30.1
 )
 
 require (
@@ -33,7 +36,6 @@ require (
 	modernc.org/libc v1.52.1 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.8.0 // indirect
-	modernc.org/sqlite v1.30.1 // indirect
 	modernc.org/strutil v1.2.0 // indirect
 	modernc.org/token v1.1.0 // indirect
 )

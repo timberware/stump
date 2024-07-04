@@ -1,51 +1,66 @@
 package systray
 
 import (
+	"stump/internal/auth"
 	"stump/internal/icon"
 	"stump/internal/logger"
+	"stump/internal/user"
 	"stump/internal/ws"
 
 	"github.com/getlantern/systray"
 )
 
+var twitchUser *systray.MenuItem
 var connect *systray.MenuItem
 var disconnect *systray.MenuItem
-var token *systray.MenuItem
+var login *systray.MenuItem
 var quit *systray.MenuItem
-var m chan string
 
 func OnReady() {
 	systray.SetTitle("Stump")
 	systray.SetIcon(icon.Data())
 
+	login = systray.AddMenuItem("Login", "Twitch Login")
 	connect = systray.AddMenuItem("Connect", "Connect to Twitch")
 	disconnect = systray.AddMenuItem("Disconnect", "Disconnect from Twitch")
-	token = systray.AddMenuItem("Token", "Twitch Token")
 	quit = systray.AddMenuItem("Quit", "Quit the app")
 
 	go Handle()
 }
 
 func Handle() {
-	m = make(chan string)
+	var u user.User
+	var dc string
+	m := make(chan string)
+
 	for {
 		select {
+		case <-login.ClickedCh:
+			dc = auth.GetDeviceCode()
+			logger.Info(dc)
+
 		case <-connect.ClickedCh:
+			u.Token = auth.GetToken(dc)
+			u.GetInfo()
+			u.GetAllFollowed()
 			logger.Info("Connecting")
-			ws.Connect(m)
+			ws.Connect(m, u)
+
 		case <-disconnect.ClickedCh:
 			logger.Info("Disconnecting")
 			ws.Disconnect()
-		case <-token.ClickedCh:
-			GetTwitchToken("Please input your Twitch Token", "Get Token")
+
 		case <-quit.ClickedCh:
-			shouldQuit, _ := ConfirmQuit("Do you want to continue?", "Confirm Quit?")
+			shouldQuit, _ := ConfirmQuit("Do you want to quit?", "Confirm Quit?")
 
 			if shouldQuit {
 				systray.Quit()
 			}
-		case message := <-m:
-			logger.Info(message)
+
+		case sessionId := <-m:
+			for _, f := range u.Followed {
+				go ws.SubscribeToEvent(f.Broadcaster_id, sessionId, u.Token)
+			}
 		}
 	}
 }
