@@ -6,8 +6,8 @@ import (
 	"stump/internal/logger"
 )
 
-func Data() []byte {
-	iconPath, err := filepath.Abs(filepath.FromSlash(getIconLocation()))
+func Data(isOnline bool) []byte {
+	iconPath, err := filepath.Abs(filepath.FromSlash(getIconLocation(isOnline)))
 	if err != nil {
 		logger.Error("Failed to get systray icon path", "path", iconPath, "error", err)
 		return nil
