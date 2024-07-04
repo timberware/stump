@@ -18,3 +18,9 @@ run-linux:
 
 run-windows:
 	./build/stump.exe
+
+tidy:
+	go mod tidy -v
+
+clean:
+	go clean -modcache

@@ -23,3 +23,6 @@ build
 # Go workspace file
 go.work
 .idea
+
+# Env vars
+.env
