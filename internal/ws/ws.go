@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"os"
 	"stump/internal/logger"
+	"stump/internal/notify"
 	"stump/internal/user"
 	"time"
 
@@ -32,20 +33,29 @@ type Subscription struct {
 }
 
 type WSMessage struct {
-	Metadata Metadata
-	Payload  Payload
+	Metadata Metadata `json:"metadata"`
+	Payload  Payload  `json:"payload"`
 }
 
 type Session struct {
-	Id string
-}
-
-type Payload struct {
-	Session Session
+	Id string `json:"id"`
 }
 
 type Metadata struct {
-	Message_type string
+	Message_type      string `json:"message_type"`
+	Subscription_type string `json:"subscription_type"`
+}
+
+type Payload struct {
+	Session      Session      `json:"session"`
+	Subscription Subscription `json:"subscription"`
+	Event        Event        `json:"event"`
+}
+
+type Event struct {
+	Broadcaster_id         string `json:"broadcaster_user_id"`
+	Broadcaster_user_login string `json:"broadcaster_user_login"`
+	Broadcaster_user_name  string `json:"broadcaster_user_name"`
 }
 
 var twitchURL = flag.String("api", "api.twitch.tv", "http service address")
@@ -65,13 +75,14 @@ func Connect(m chan string, user user.User) {
 	}
 
 	logger.Info("connected to %s", u.String())
-	go GetMessage(m, interrupt, user.Token)
+	go GetMessage(m, interrupt)
 }
 
-func GetMessage(m chan string, in chan error, token string) {
+func GetMessage(m chan string, in chan error) {
 	var ms WSMessage
 
 	for {
+
 		_, message, err := conn.ReadMessage()
 		if err != nil {
 			logger.Error("Error:", err)
@@ -88,9 +99,15 @@ func GetMessage(m chan string, in chan error, token string) {
 			return
 		}
 
-		if ms.Metadata.Message_type == "session_welcome" {
+		switch {
+		case ms.Metadata.Message_type == "session_welcome":
 			m <- ms.Payload.Session.Id
+		case ms.Metadata.Subscription_type == "stream.online":
+			notify.Alert(ms.Payload.Event.Broadcaster_user_name)
 		}
+
+		ms.Metadata.Message_type = ""
+		ms.Metadata.Subscription_type = ""
 	}
 }
 
