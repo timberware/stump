@@ -8,8 +8,8 @@ import (
 )
 
 func Alert(streamerName string) {
-	title := "Stump Alert"
-	message := streamerName + " has come online"
+	title := "Stump"
+	message := streamerName + " is online"
 
 	tempFilePath, err := icon.CreateTempFile()
 	if err != nil {
