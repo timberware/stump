@@ -5,12 +5,13 @@ import (
 	"database/sql"
 	_ "embed"
 	_ "modernc.org/sqlite"
-
+	"path/filepath"
 	gen "stump/internal/db/generated"
 	"stump/internal/logger"
+	"stump/internal/utils"
 )
 
-const NAME = "stump.sqlite"
+const dbName = "stump.sqlite"
 
 //go:embed schema.sql
 var ddl string
@@ -18,18 +19,24 @@ var ddl string
 func Init() (*sql.DB, error) {
 	ctx := context.Background()
 
-	db, err := sql.Open("sqlite", NAME)
+	dbPath, err := utils.GetAppPath()
 	if err != nil {
-		logger.Error("failed to open database: %v", err)
+		logger.Error("failed to get database path: %v", err)
 		return nil, err
 	}
-	logger.Info("%s opened", NAME)
+	dbPath = filepath.Join(dbPath, dbName)
+
+	db, err := sql.Open("sqlite", dbPath)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	logger.Info("Database ready")
 
 	if _, err := db.ExecContext(ctx, ddl); err != nil {
 		logger.Error("failed to create table: %v", err)
 		return nil, err
 	}
-	logger.Info("tables created")
 
 	return db, nil
 }
