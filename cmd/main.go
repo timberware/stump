@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"os"
+	"stump/internal/utils"
 
 	"stump/internal/db"
 	"stump/internal/logger"
@@ -12,9 +14,19 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
+	utils.ParseFlags()
+
+	var err error
+
+	err = godotenv.Load()
 	if err != nil {
-		logger.Error("There was a problem loading the .env file")
+		logger.Error("There was a problem loading the .env file: %v", err)
+		os.Exit(1)
+	}
+
+	err = logger.Init()
+	if err != nil {
+		fmt.Printf("failed to initialize logger: %v\n", err)
 		os.Exit(1)
 	}
 
