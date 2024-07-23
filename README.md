@@ -1,5 +1,5 @@
 <div style="text-align:center;">
-  <img src="assets/icon/icon_linux.png" alt="Stump Logo: a pixelated tree stump" width="64" height="64">
+  <img src="assets/icon/images/stump.png" alt="Stump Logo: a pixelated tree stump" width="64" height="64">
 </div>
 
 <h1 style="margin-top: 0; text-align: center;">Stump</h1>

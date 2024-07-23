@@ -25,4 +25,4 @@ go.work
 .idea
 
 # Env vars
-.env
+cmd/.env

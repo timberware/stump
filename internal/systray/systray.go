@@ -1,8 +1,8 @@
 package systray
 
 import (
+	"stump/assets/icon"
 	"stump/internal/auth"
-	"stump/internal/icon"
 	"stump/internal/logger"
 	"stump/internal/user"
 	"stump/internal/ws"
