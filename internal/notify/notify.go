@@ -11,14 +11,13 @@ func Alert(streamerName string) {
 	title := "Stump"
 	message := streamerName + " is online"
 
-	tempFilePath, err := icon.CreateTempFile()
+	iconFilePath, err := icon.CreateImagePath()
 	if err != nil {
-		logger.Error("error creating temporary file:", err)
+		logger.Error("error ensuring icon file:", err)
 		return
 	}
-	defer icon.CleanupTempFile(tempFilePath)
 
-	err = beeep.Alert(title, message, tempFilePath)
+	err = beeep.Alert(title, message, iconFilePath)
 	if err != nil {
 		logger.Error("error creating alert:", err)
 		return
