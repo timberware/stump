@@ -6,10 +6,15 @@ import (
 
 func ParseFlags() {
 	flag.Bool("log", false, "enable logging to a file")
+
+	flag.Parse()
 }
 
 func IsFlagSet(name string) bool {
-	flag.Parse()
 	flagValue := flag.Lookup(name)
-	return flagValue != nil
+	if flagValue == nil {
+		return false
+	}
+
+	return flagValue.Value.String() == "true"
 }
