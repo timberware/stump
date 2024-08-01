@@ -13,6 +13,9 @@ build-linux:
 build-windows:
 	GOOS=windows GOARCH=amd64 go build -o $(WINDOWS_BINARY) ./cmd
 
+build-macos:
+	GOOS=darwin GCO_ENABLED=1 GOARCH=arm64 go build -o $(LINUX_BINARY) ./cmd
+
 run-linux:
 	./build/stump
 
